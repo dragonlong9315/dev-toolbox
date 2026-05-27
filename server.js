@@ -182,9 +182,16 @@ const server = http.createServer((req, res) => {
   }
 
   // API: 统计数据
+  const apiHeaders = { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, OPTIONS', 'Access-Control-Allow-Headers': 'Content-Type' };
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, apiHeaders);
+    return res.end();
+  }
+
   if (req.url === '/api/analytics') {
     const stats = getStats();
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.writeHead(200, apiHeaders);
     return res.end(JSON.stringify(stats));
   }
 
@@ -194,7 +201,7 @@ const server = http.createServer((req, res) => {
     const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
     const today = data.views.filter(v => v.ts >= todayStart.getTime()).length;
     const ips = new Set(data.views.map(v => v.ip));
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.writeHead(200, apiHeaders);
     return res.end(JSON.stringify({ total: data.views.length, today, ips: ips.size }));
   }
 
