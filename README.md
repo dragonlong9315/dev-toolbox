@@ -1,35 +1,44 @@
-# Dev工具箱 — 免费在线开发者工具
+# 🧰 Dev工具箱
 
-一个纯前端的在线工具集合，托管在 GitHub Pages（完全免费）。
+**15 个免费在线开发者工具，纯前端运行，数据绝不上传。**
 
-## 包含工具
+[![Pages](https://img.shields.io/badge/GitHub%20Pages-在线访问-6366f1?logo=github)](https://dragonlong9315.github.io/dev-toolbox/)
 
-1. JSON 格式化/校验
-2. URL 编解码
-3. Base64 编解码
-4. 时间戳转换
-5. 正则表达式测试
-6. MD5/SHA 哈希生成
-7. 二维码生成
-8. 颜色格式转换 (HEX/RGB/HSL)
-9. 文本 Diff 对比
-10. Markdown 预览
+## ✨ 工具列表
 
-## 特点
+| 工具 | 说明 |
+|------|------|
+| 📋 JSON 格式化 | 格式化、压缩、校验 JSON 数据 |
+| 🔐 Base64 编解码 | 文本与 Base64 互转 |
+| 🔗 URL 编解码 | URL Encode / Decode |
+| ⏰ 时间戳转换 | Unix 时间戳 ⇄ 日期 |
+| 🔍 正则测试 | 在线正则表达式调试 |
+| 🔑 哈希生成 | MD5 / SHA-1 / SHA-256 / SHA-512 |
+| 📱 二维码生成 | 文本转二维码图片 |
+| 🆔 UUID 生成器 | 批量生成 UUID v4 |
+| 📝 Lorem Ipsum | 占位文本生成器 |
+| 🔄 HTML Entity | 实体编码与解码 |
+| 🎫 JWT 解码 | 解析 JWT Token |
+| 🎨 颜色转换 | HEX / RGB / HSL 互转 |
+| 📊 文本 Diff | 逐行对比差异 |
+| 📄 Markdown 预览 | 实时渲染预览 |
+| 🖼️ 图片转 Base64 | 图片文件 ⇄ Base64 |
 
-- 🚀 纯前端运行，数据不上传
-- 📱 响应式设计，手机可用
-- 💰 完全免费，零成本部署
-- 🔓 开源，可自行修改
+## 🚀 特点
 
-## 部署
+- **纯前端** — 所有计算在浏览器本地完成
+- **零数据上传** — 隐私至上
+- **响应式设计** — 手机/平板/桌面全覆盖
+- **Canvas 3D 背景** — 粒子动态效果
+- **滚动动画** — Apple 风格渐入动效
+- **暗色模式** — Monet 动态色彩系统
+- **永久免费** — 托管于 GitHub Pages
 
-1. Fork 此仓库
-2. 在 Settings → Pages 中启用 GitHub Pages（Source: main 分支）
-3. 访问 `https://你的用户名.github.io/dev-toolbox/`
+## 🔗 链接
 
-或直接运行 `bash deploy.sh`
+- 🏠 主站: [dragonlong9315.github.io/dev-toolbox](https://dragonlong9315.github.io/dev-toolbox/)
+- 📊 统计: [dragonlong9315.github.io/dev-toolbox/analytics](https://dragonlong9315.github.io/dev-toolbox/analytics)
 
-## 本地开发
+## 📄 许可
 
-直接用浏览器打开 `public/index.html` 即可。
+MIT License
