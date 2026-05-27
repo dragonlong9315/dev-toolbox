@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="在线 Lorem Ipsum 占位文本生成器 — 生成指定段落数的随机拉丁文文本">
+<title>Lorem Ipsum 生成器 — Dev工具箱</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../monet.css">
+</head>
+<body>
+<header class="tool-header"><div class="container"><h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> Lorem Ipsum 生成器</h1><a href="../index.html">← 返回</a></div></header>
+<main class="container tool-main">
+<div class="control-row">
+  <button onclick="generate(1)">1 段</button>
+  <button onclick="generate(3)">3 段</button>
+  <button onclick="generate(5)">5 段</button>
+  <button onclick="generate(10)">10 段</button>
+  <label>自定义: <input type="number" id="customN" value="3" min="1" max="100" style="width:60px"> 段</label>
+  <button onclick="generate(parseInt(document.getElementById('customN').value)||3)">生成</button>
+  <button class="btn-copy" onclick="copyAll()">📋 复制</button>
+</div>
+<div id="output" class="result-box">点击按钮生成占位文本...</div>
+</main>
+<script>
+const WORDS = ['lorem','ipsum','dolor','sit','amet','consectetur','adipiscing','elit','sed','do','eiusmod','tempor','incididunt','ut','labore','et','dolore','magna','aliqua','enim','ad','minim','veniam','quis','nostrud','exercitation','ullamco','laboris','nisi','ut','aliquip','ex','ea','commodo','consequat','duis','aute','irure','dolor','in','reprehenderit','voluptate','velit','esse','cillum','dolore','eu','fugiat','nulla','pariatur','excepteur','sint','occaecat','cupidatat','non','proident','sunt','culpa','qui','officia','deserunt','mollit','anim','id','est','laborum'];
+function generate(n) {
+  const paras = [];
+  for (let p = 0; p < n; p++) {
+    const len = 30 + Math.floor(Math.random() * 50);
+    const words = [];
+    for (let i = 0; i < len; i++) words.push(WORDS[Math.floor(Math.random() * WORDS.length)]);
+    let text = words.join(' ');
+    text = text.charAt(0).toUpperCase() + text.slice(1) + '.';
+    paras.push(text);
+  }
+  document.getElementById('output').className = 'result-box';
+  document.getElementById('output').textContent = paras.join('\n\n');
+}
+function copyAll() {
+  navigator.clipboard.writeText(document.getElementById('output').textContent).then(() => {
+    const b = event.target; b.textContent = '✅ 已复制'; setTimeout(() => b.textContent = '📋 复制', 1500);
+  });
+}
+</script>
+<script src="../monet.js"></script>
+</body>
+</html>

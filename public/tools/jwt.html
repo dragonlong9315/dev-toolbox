@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="在线 JWT 解码工具 — 解析 JWT Token 的 Header 和 Payload，纯前端运行">
+<title>JWT 解码 — Dev工具箱</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../monet.css">
+</head>
+<body>
+<header class="tool-header"><div class="container"><h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 10h.01M8 14h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01"/></svg> JWT 解码器</h1><a href="../index.html">← 返回</a></div></header>
+<main class="container tool-main">
+<div class="label-row"><span>输入 JWT Token</span></div>
+<textarea id="input" rows="4" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"></textarea>
+<div class="control-row">
+  <button onclick="decode()">解码</button>
+  <button class="btn-copy" onclick="copyResult()">📋 复制</button>
+  <button class="btn-outline" onclick="clearAll()">清空</button>
+</div>
+<div id="output" class="result-box">输入 JWT Token 点击解码...</div>
+</main>
+<footer><div class="container"><p>© 2025 Dev工具箱 · 纯前端运行 · <a href="../index.html">返回首页</a></p></div></footer>
+<script>
+function decode() {
+  const token = document.getElementById('input').value.trim();
+  const output = document.getElementById('output');
+  if (!token) { output.innerHTML = '请输入 JWT Token'; return; }
+  const parts = token.split('.');
+  if (parts.length !== 3) { output.className = 'result-box error'; output.innerHTML = '❌ 无效的 JWT Token（需包含3个部分）'; return; }
+  try {
+    const header = JSON.parse(atob(parts[0].replace(/-/g, '+').replace(/_/g, '/')));
+    const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+    output.className = 'result-box';
+    output.innerHTML = `<b>🔷 Header</b>\n${JSON.stringify(header, null, 2)}\n\n<b>🔶 Payload</b>\n${JSON.stringify(payload, null, 2)}\n\n<b>🔒 Signature</b>\n${parts[2].substring(0,50)}...`;
+    // 检查时间戳
+    if (payload.exp) {
+      const exp = new Date(payload.exp * 1000);
+      const now = new Date();
+      const status = exp > now ? '✅ 有效' : '⚠️ 已过期';
+      output.innerHTML += `\n\n<b>⏰ 过期时间:</b> ${exp.toLocaleString()} ${status}`;
+    }
+    if (payload.iat) {
+      output.innerHTML += `\n<b>🕐 签发时间:</b> ${new Date(payload.iat * 1000).toLocaleString()}`;
+    }
+  } catch (e) {
+    output.className = 'result-box error';
+    output.innerHTML = `❌ 解码失败: ${e.message}`;
+  }
+}
+function copyResult() {
+  navigator.clipboard.writeText(document.getElementById('output').textContent).then(() => {
+    const b = event.target; b.textContent = '✅ 已复制'; setTimeout(() => b.textContent = '📋 复制', 1500);
+  });
+}
+function clearAll() { document.getElementById('input').value = ''; document.getElementById('output').innerHTML = '输入 JWT Token 点击解码...'; document.getElementById('output').className = 'result-box'; }
+</script>
+<script src="../monet.js"></script>
+</body>
+</html>

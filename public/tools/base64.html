@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="在线 Base64 编解码工具 — 文本与 Base64 互转，纯前端运行">
+<title>Base64 编解码 — Dev工具箱</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../monet.css">
+</head>
+<body>
+<header class="tool-header">
+  <div class="container">
+    <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg> Base64 编解码</h1>
+    <a href="../index.html">← 返回工具箱</a>
+  </div>
+</header>
+<main class="container tool-main">
+  <div class="label-row"><span>输入文本</span></div>
+  <textarea id="input" rows="6" placeholder="输入要编码/解码的文本..."></textarea>
+  <div class="control-row">
+    <button onclick="base64Encode()">编码 (Text → Base64)</button>
+    <button onclick="base64Decode()">解码 (Base64 → Text)</button>
+    <button class="btn-copy" onclick="copyResult()">📋 复制</button>
+    <button class="btn-outline" onclick="clearAll()">清空</button>
+  </div>
+  <div class="label-row"><span>结果</span></div>
+  <div id="output" class="result-box">等待输入...</div>
+</main>
+<footer><div class="container"><p>© 2025 Dev工具箱 · 纯前端运行 · <a href="../index.html">返回首页</a></p></div></footer>
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+function base64Encode() {
+  try {
+    output.className = 'result-box';
+    output.textContent = btoa(unescape(encodeURIComponent(input.value)));
+  } catch (e) {
+    output.className = 'result-box error';
+    output.textContent = '❌ 编码失败: ' + e.message;
+  }
+}
+function base64Decode() {
+  try {
+    output.className = 'result-box';
+    output.textContent = decodeURIComponent(escape(atob(input.value.trim())));
+  } catch (e) {
+    output.className = 'result-box error';
+    output.textContent = '❌ 解码失败: 请确认输入是有效的 Base64 字符串';
+  }
+}
+function copyResult() {
+  navigator.clipboard.writeText(output.textContent).then(() => {
+    const btn = event.target; btn.textContent = '✅ 已复制'; setTimeout(() => btn.textContent = '📋 复制', 1500);
+  });
+}
+function clearAll() { input.value = ''; output.textContent = '等待输入...'; output.className = 'result-box'; }
+</script>
+<script src="../monet.js"></script>
+</body>
+</html>

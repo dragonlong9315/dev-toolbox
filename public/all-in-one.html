@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="免费在线开发者工具箱 — JSON格式化、Base64编解码、时间戳转换、正则测试、哈希生成、二维码、颜色转换、文本Diff、Markdown预览">
+<title>Dev工具箱 — 10合1免费开发者工具</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f8f9fa;--card-bg:#fff;--text:#212529;--t2:#6c757d;--primary:#4361ee;--ph:#3a56d4;--border:#dee2e6;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+header{background:linear-gradient(135deg,var(--primary),#7209b7);color:#fff;padding:20px 0;text-align:center}
+header h1{font-size:1.5rem}
+.container{max-width:960px;margin:0 auto;padding:0 16px}
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;padding:12px 0;border-bottom:1px solid var(--border);margin-bottom:16px;position:sticky;top:0;background:var(--bg);z-index:10}
+nav.tabs button{padding:8px 14px;border:1px solid var(--border);border-radius:20px;background:var(--card-bg);cursor:pointer;font-size:.82rem;white-space:nowrap;transition:all .15s}
+nav.tabs button:hover{border-color:var(--primary);color:var(--primary)}
+nav.tabs button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.tool-panel{display:none}
+.tool-panel.active{display:block}
+.tool-panel h2{font-size:1.2rem;margin-bottom:12px}
+textarea,input[type="text"],input[type="number"]{width:100%;padding:10px;border:1px solid var(--border);border-radius:8px;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:.85rem;resize:vertical;background:var(--card-bg)}
+textarea:focus,input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(67,97,238,.15)}
+button.btn,button{display:inline-block;padding:8px 18px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:.82rem;cursor:pointer;font-weight:500;transition:background .15s}
+button:hover{background:var(--ph)}
+button.s2{background:#e9ecef;color:var(--text)}
+button.s2:hover{background:#dee2e6}
+button.copy{background:#38b000}
+button.copy:hover{background:#2d9200}
+.ctrl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.result{background:#f1f3f5;border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:12px;min-height:40px;font-family:"JetBrains Mono","Fira Code",Consolas,monospace;font-size:.85rem;white-space:pre-wrap;word-break:break-all;max-height:400px;overflow-y:auto}
+.error{color:#e63946;background:#ffe3e3}
+.label{display:flex;justify-content:space-between;font-weight:500;font-size:.85rem;margin-bottom:4px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.color-preview{width:100%;height:80px;border-radius:8px;border:1px solid var(--border);margin-top:10px;transition:background .2s}
+.diff-add{background:#d4edda;color:#155724}
+.diff-rem{background:#f8d7da;color:#721c24}
+.diff-eq{color:var(--t2)}
+.md-preview{background:#fff;padding:16px;border-radius:8px;border:1px solid var(--border);min-height:150px}
+.md-preview h1,.md-preview h2{border-bottom:1px solid #eee;padding-bottom:4px;margin:12px 0 6px}
+.md-preview code{background:#f1f3f5;padding:2px 5px;border-radius:3px;font-size:.9em}
+.md-preview pre{background:#212529;color:#f8f9fa;padding:14px;border-radius:8px;overflow-x:auto}
+.md-preview pre code{background:none;color:inherit;padding:0}
+.md-preview blockquote{border-left:4px solid var(--primary);margin:6px 0;padding:6px 14px;background:#f1f3f5}
+.md-preview table{border-collapse:collapse;width:100%;margin:6px 0}
+.md-preview th,.md-preview td{border:1px solid var(--border);padding:6px 10px;text-align:left}
+.md-preview th{background:#f1f3f5}
+footer{text-align:center;padding:20px 0;color:var(--t2);font-size:.8rem;border-top:1px solid var(--border);margin-top:30px}
+@media(max-width:600px){.two-col{grid-template-columns:1fr}nav.tabs{font-size:.75rem}nav.tabs button{padding:6px 10px}}
+</style>
+</head>
+<body>
+<header><h1>🧰 Dev工具箱</h1><p style="opacity:.8;font-size:.85rem">10个工具 · 纯前端 · 数据不上传 · 完全免费</p></header>
+
+<div class="container">
+<nav class="tabs" id="tabs">
+  <button class="active" data-tool="json">📋 JSON格式化</button>
+  <button data-tool="url">🔗 URL编解码</button>
+  <button data-tool="base64">🔐 Base64</button>
+  <button data-tool="timestamp">⏰ 时间戳</button>
+  <button data-tool="regex">🔍 正则测试</button>
+  <button data-tool="hash">🔑 哈希生成</button>
+  <button data-tool="qrcode">📱 二维码</button>
+  <button data-tool="color">🎨 颜色转换</button>
+  <button data-tool="diff">📝 文本Diff</button>
+  <button data-tool="markdown">📄 Markdown</button>
+</nav>
+
+<!-- JSON -->
+<div class="tool-panel active" id="panel-json"><h2>📋 JSON 格式化 / 校验</h2>
+<textarea id="json-in" rows="8" placeholder='{"name":"Dev工具箱","version":1}'></textarea>
+<div class="ctrl">
+<button onclick="jsonFormat()">格式化</button><button onclick="jsonCompress()">压缩</button><button onclick="jsonValidate()">校验</button><button class="copy" onclick="copyEl('json-out')">📋复制</button><button class="s2" onclick="clearEl('json-in','json-out','等待输入...')">清空</button>
+</div><div class="label"><span>输出</span></div><div class="result" id="json-out">等待输入...</div>
+</div>
+
+<!-- URL -->
+<div class="tool-panel" id="panel-url"><h2>🔗 URL 编解码</h2>
+<textarea id="url-in" rows="5" placeholder="输入要编码/解码的文本或 URL..."></textarea>
+<div class="ctrl">
+<button onclick="urlEncode()">编码 Encode</button><button onclick="urlDecode()">解码 Decode</button><button onclick="urlEncodeURI()">编码完整URI</button><button onclick="urlDecodeURI()">解码完整URI</button><button class="copy" onclick="copyEl('url-out')">📋复制</button><button class="s2" onclick="clearEl('url-in','url-out','等待输入...')">清空</button>
+</div><div class="result" id="url-out">等待输入...</div>
+</div>
+
+<!-- Base64 -->
+<div class="tool-panel" id="panel-base64"><h2>🔐 Base64 编解码</h2>
+<textarea id="b64-in" rows="5" placeholder="输入文本或 Base64 字符串..."></textarea>
+<div class="ctrl">
+<button onclick="b64Encode()">编码 Text→Base64</button><button onclick="b64Decode()">解码 Base64→Text</button><button class="copy" onclick="copyEl('b64-out')">📋复制</button><button class="s2" onclick="clearEl('b64-in','b64-out','等待输入...')">清空</button>
+</div><div class="result" id="b64-out">等待输入...</div>
+</div>
+
+<!-- Timestamp -->
+<div class="tool-panel" id="panel-timestamp"><h2>⏰ 时间戳转换</h2>
+<div class="two-col">
+<div><div class="label"><span>Unix时间戳（秒）</span></div><input type="number" id="ts-ts" placeholder="1700000000">
+<div class="ctrl"><button onclick="tsToDate()">→ 转日期</button><button class="s2" onclick="nowTs()">当前时间戳</button></div></div>
+<div><div class="label"><span>日期时间</span></div><input type="text" id="ts-date" placeholder="2025-01-01 12:00:00">
+<div class="ctrl"><button onclick="dateToTs()">→ 转时间戳</button><button class="s2" onclick="nowDate()">当前时间</button></div></div>
+</div><div class="result" id="ts-out">等待操作...</div>
+</div>
+
+<!-- Regex -->
+<div class="tool-panel" id="panel-regex"><h2>🔍 正则表达式测试</h2>
+<div class="label"><span>正则表达式</span></div><input type="text" id="re-pat" placeholder="\d{4}-\d{2}-\d{2}">
+<div class="ctrl"><label><input type="checkbox" id="re-g" checked> 全局g</label><label><input type="checkbox" id="re-i"> 忽略大小写i</label><label><input type="checkbox" id="re-m"> 多行m</label><button onclick="regexTest()">🔍 测试</button></div>
+<div class="label"><span>测试文本</span></div><textarea id="re-text" rows="6">2025-01-15 会议记录
+2025-02-28 项目截止
+2025-03-10 版本发布</textarea>
+<div class="result" id="re-out">等待测试...</div>
+</div>
+
+<!-- Hash -->
+<div class="tool-panel" id="panel-hash"><h2>🔑 哈希生成</h2>
+<textarea id="hash-in" rows="5" placeholder="输入要计算哈希的文本..."></textarea>
+<div class="ctrl">
+<button onclick="hashIt('SHA-256')">SHA-256</button><button onclick="hashIt('SHA-1')">SHA-1</button><button onclick="hashIt('SHA-512')">SHA-512</button><button onclick="hashMD5()">MD5</button><button class="copy" onclick="copyHash()">📋复制</button><button class="s2" onclick="clearEl('hash-in','hash-out','等待输入...')">清空</button>
+</div><div class="result" id="hash-out">等待输入...</div>
+</div>
+
+<!-- QR -->
+<div class="tool-panel" id="panel-qrcode"><h2>📱 二维码生成</h2>
+<textarea id="qr-in" rows="3" placeholder="输入文本或链接...">https://github.com</textarea>
+<div class="ctrl"><button onclick="qrGen()">生成二维码</button> <label>尺寸:<input type="number" id="qr-size" value="256" min="64" max="512" style="width:70px"></label> <button class="s2" onclick="clearQR()">清空</button></div>
+<div style="text-align:center;margin-top:14px"><img id="qr-img" alt="QR Code" style="display:none"><p id="qr-placeholder" style="color:#999">点击生成二维码</p></div>
+</div>
+
+<!-- Color -->
+<div class="tool-panel" id="panel-color"><h2>🎨 颜色格式转换</h2>
+<div class="two-col">
+<div><div class="label"><span>HEX</span></div><input type="text" id="col-hex" placeholder="#4361ee" value="#4361ee"></div>
+<div><div class="label"><span>RGB</span></div><input type="text" id="col-rgb" placeholder="rgb(67,97,238)"></div>
+<div><div class="label"><span>HSL</span></div><input type="text" id="col-hsl" placeholder="hsl(230,83%,60%)"></div>
+<div><div class="label"><span>颜色选择器</span></div><input type="color" id="col-picker" value="#4361ee" style="width:100%;height:36px"></div>
+</div><div class="color-preview" id="col-preview" style="background:#4361ee"></div>
+<div class="result" id="col-out" style="font-family:monospace">HEX: #4361ee\nRGB: rgb(67, 97, 238)\nHSL: hsl(230, 83%, 60%)</div>
+</div>
+
+<!-- Diff -->
+<div class="tool-panel" id="panel-diff"><h2>📝 文本 Diff 对比</h2>
+<div class="two-col">
+<div><div class="label"><span>原始文本 (A)</span></div><textarea id="diff-a" rows="10">const a = 1;
+const b = 2;
+console.log(a + b);
+function hello() { return "world"; }</textarea></div>
+<div><div class="label"><span>修改后 (B)</span></div><textarea id="diff-b" rows="10">const a = 1;
+const b = 3;
+console.log(a + b);
+function hello(name) { return "Hello "+name; }
+function bye() { return "bye"; }</textarea></div>
+</div><div class="ctrl"><button onclick="diffCompare()">对比差异</button><button class="s2" onclick="swapDiff()">交换A/B</button><button class="s2" onclick="clearDiff()">清空</button></div>
+<div class="result" id="diff-out" style="font-family:monospace">点击"对比差异"查看...</div>
+</div>
+
+<!-- Markdown -->
+<div class="tool-panel" id="panel-markdown"><h2>📄 Markdown 预览</h2>
+<div class="two-col">
+<div><div class="label"><span>Markdown 源码</span></div><textarea id="md-in" rows="16"># Dev工具箱
+## 功能
+- **JSON格式化** — 一键美化
+- *Base64编解码*
+- `时间戳转换`
+## 代码
+```js
+console.log("Hello!");
+```
+> 纯前端，数据不上传。</textarea></div>
+<div><div class="label"><span>预览</span></div><div class="md-preview" id="md-preview"></div></div>
+</div><div class="ctrl"><button class="copy" onclick="copyMdHtml()">📋复制HTML</button><button class="s2" onclick="clearMd()">清空</button></div>
+</div>
+
+<footer><p>© 2025 Dev工具箱 · 所有工具纯前端运行 · 无数据上传</p></footer>
+</div>
+
+<script>
+// ── Tab切换 ──
+document.querySelectorAll('#tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('#tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tool-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tool).classList.add('active');
+  });
+});
+
+function copyEl(id){const el=document.getElementById(id);navigator.clipboard.writeText(el.textContent).then(()=>{const b=event.target;b.textContent='✅已复制';setTimeout(()=>b.textContent='📋复制',1500)});}
+function clearEl(inId,outId,placeholder){document.getElementById(inId).value='';document.getElementById(outId).textContent=placeholder;document.getElementById(outId).className='result';}
+
+// ── JSON ──
+function jsonFormat(){try{const o=JSON.parse(document.getElementById('json-in').value);const el=document.getElementById('json-out');el.className='result';el.textContent=JSON.stringify(o,null,2)}catch(e){showErr('json-out',e.message)}}
+function jsonCompress(){try{const o=JSON.parse(document.getElementById('json-in').value);const el=document.getElementById('json-out');el.className='result';el.textContent=JSON.stringify(o)}catch(e){showErr('json-out',e.message)}}
+function jsonValidate(){try{JSON.parse(document.getElementById('json-in').value);const el=document.getElementById('json-out');el.className='result';el.textContent='✅ 有效 JSON!\n\n'+JSON.stringify(JSON.parse(document.getElementById('json-in').value),null,2)}catch(e){showErr('json-out',e.message)}}
+
+// ── URL ──
+function urlEncode(){document.getElementById('url-out').className='result';document.getElementById('url-out').textContent=encodeURIComponent(document.getElementById('url-in').value)}
+function urlDecode(){try{document.getElementById('url-out').className='result';document.getElementById('url-out').textContent=decodeURIComponent(document.getElementById('url-in').value)}catch(e){showErr('url-out',e.message)}}
+function urlEncodeURI(){document.getElementById('url-out').className='result';document.getElementById('url-out').textContent=encodeURI(document.getElementById('url-in').value)}
+function urlDecodeURI(){try{document.getElementById('url-out').className='result';document.getElementById('url-out').textContent=decodeURI(document.getElementById('url-in').value)}catch(e){showErr('url-out',e.message)}}
+
+// ── Base64 ──
+function b64Encode(){try{document.getElementById('b64-out').className='result';document.getElementById('b64-out').textContent=btoa(unescape(encodeURIComponent(document.getElementById('b64-in').value)))}catch(e){showErr('b64-out',e.message)}}
+function b64Decode(){try{document.getElementById('b64-out').className='result';document.getElementById('b64-out').textContent=decodeURIComponent(escape(atob(document.getElementById('b64-in').value.trim())))}catch(e){showErr('b64-out','无效的Base64字符串')}}
+
+// ── Timestamp ──
+function tsToDate(){const ts=parseInt(document.getElementById('ts-ts').value);if(!ts){document.getElementById('ts-out').textContent='请输入有效时间戳';return}const d=new Date(ts*1000);document.getElementById('ts-out').className='result';document.getElementById('ts-out').innerHTML='<b>UTC:</b> '+d.toUTCString()+'<br><b>本地:</b> '+d.toLocaleString('zh-CN')+'<br><b>ISO:</b> '+d.toISOString()+'<br><b>毫秒:</b> '+(ts*1000)}
+function dateToTs(){const d=new Date(document.getElementById('ts-date').value);if(isNaN(d.getTime())){document.getElementById('ts-out').textContent='日期格式无效';return}const ts=Math.floor(d.getTime()/1000);document.getElementById('ts-out').className='result';document.getElementById('ts-out').innerHTML='<b>秒:</b> '+ts+'<br><b>毫秒:</b> '+d.getTime()+'<br><b>ISO:</b> '+d.toISOString()}
+function nowTs(){document.getElementById('ts-ts').value=Math.floor(Date.now()/1000);tsToDate()}
+function nowDate(){const d=new Date();document.getElementById('ts-date').value=d.toLocaleString('zh-CN',{hour12:false}).replace(/\//g,'-');dateToTs()}
+
+// ── Regex ──
+function regexTest(){const p=document.getElementById('re-pat').value;if(!p){document.getElementById('re-out').innerHTML='请输入正则表达式';return}
+const flags=[document.getElementById('re-g').checked?'g':'',document.getElementById('re-i').checked?'i':'',document.getElementById('re-m').checked?'m':''].join('');
+try{const re=new RegExp(p,flags);const text=document.getElementById('re-text').value;const matches=text.match(re);const out=document.getElementById('re-out');out.className='result';
+if(!matches||matches.length===0){out.innerHTML='⚠️ 无匹配结果';return}
+let h=text;if(flags.includes('g')){h=text.replace(re,m=>'<mark>'+m+'</mark>')}else{const m=re.exec(text);if(m){h=text.slice(0,m.index)+'<mark>'+m[0]+'</mark>'+text.slice(m.index+m[0].length)}}
+let s='<b>匹配数:</b> '+matches.length+'<br><b>内容:</b><br>';
+matches.forEach((m,i)=>{s+='  ['+(i+1)+'] '+m.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'<br>'});
+s+='<br><b>高亮预览:</b><br>'+h;out.innerHTML=s;}catch(e){showErr('re-out',e.message)}}
+document.getElementById('re-pat').addEventListener('input',regexTest);
+document.getElementById('re-text').addEventListener('input',regexTest);
+document.querySelectorAll('#panel-regex input[type=checkbox]').forEach(cb=>cb.addEventListener('change',regexTest));
+
+// ── Hash ──
+async function hashIt(algo){const v=document.getElementById('hash-in').value;if(!v)return;const d=new TextEncoder().encode(v);const buf=await crypto.subtle.digest(algo,d);const hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');document.getElementById('hash-out').className='result';document.getElementById('hash-out').innerHTML='<b>算法:</b> '+algo+'<br><b>Hex:</b> '+hex+'<br><b>长度:</b> '+(buf.byteLength*8)+' bits'}
+function hashMD5(){const v=document.getElementById('hash-in').value;if(!v)return;document.getElementById('hash-out').className='result';document.getElementById('hash-out').innerHTML='<b>算法:</b> MD5<br><b>Hex:</b> '+md5(v)+'<br><b>长度:</b> 128 bits<br><small>（MD5已不安全，仅用于校验）</small>'}
+function copyHash(){const m=document.getElementById('hash-out').textContent.match(/[a-f0-9]{32,128}/i);navigator.clipboard.writeText(m?m[0]:document.getElementById('hash-out').textContent).then(()=>{const b=event.target;b.textContent='✅已复制';setTimeout(()=>b.textContent='📋复制',1500)})}
+
+// ── QR ──
+function qrGen(){const text=document.getElementById('qr-in').value;if(!text)return;const size=parseInt(document.getElementById('qr-size').value)||256;const img=document.getElementById('qr-img');const ph=document.getElementById('qr-placeholder');img.onload=()=>{img.style.display='block';img.style.margin='0 auto';ph.style.display='none'};img.onerror=()=>{ph.textContent='生成失败';img.style.display='none'};img.src='https://api.qrserver.com/v1/create-qr-code/?size='+size+'x'+size+'&data='+encodeURIComponent(text)}
+function clearQR(){document.getElementById('qr-in').value='';document.getElementById('qr-img').style.display='none';document.getElementById('qr-placeholder').style.display='block';document.getElementById('qr-placeholder').textContent='点击生成二维码'}
+
+// ── Color ──
+function updateColor(col){document.getElementById('col-preview').style.background=col;const d=document.createElement('div');d.style.color=col;document.body.appendChild(d);const c=getComputedStyle(d).color;document.body.removeChild(d);const m=c.match(/[\d.]+/g);if(!m||m.length<3)return;const[r,g,b]=m.map(Number);const hex='#'+[r,g,b].map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');const rn=r/255,gn=g/255,bn=b/255;const max=Math.max(rn,gn,bn),min=Math.min(rn,gn,bn);let h=0,s=0,l=(max+min)/2;if(max!==min){const d2=max-min;s=l>.5?d2/(2-max-min):d2/(max+min);switch(max){case rn:h=((gn-bn)/d2+(gn<bn?6:0))/6;break;case gn:h=((bn-rn)/d2+2)/6;break;case bn:h=((rn-gn)/d2+4)/6;break}}const hsl='hsl('+Math.round(h*360)+', '+Math.round(s*100)+'%, '+Math.round(l*100)+'%)';document.getElementById('col-hex').value=hex;document.getElementById('col-rgb').value='rgb('+r+', '+g+', '+b+')';document.getElementById('col-hsl').value=hsl;document.getElementById('col-picker').value=hex;document.getElementById('col-out').textContent='HEX: '+hex+'\nRGB: rgb('+r+', '+g+', '+b+')\nHSL: '+hsl}
+['col-hex','col-rgb','col-hsl'].forEach(id=>document.getElementById(id).addEventListener('input',()=>updateColor(document.getElementById(id).value)));
+document.getElementById('col-picker').addEventListener('input',()=>updateColor(document.getElementById('col-picker').value));
+
+// ── Diff ──
+function diffCompare(){const a=document.getElementById('diff-a').value.split('\n');const b=document.getElementById('diff-b').value.split('\n');const m=a.length,n=b.length;const dp=Array.from({length:m+1},()=>Array(n+1).fill(0));for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)dp[i][j]=a[i-1]===b[j-1]?dp[i-1][j-1]+1:Math.max(dp[i-1][j],dp[i][j-1]);const r=[];let i=m,j=n;while(i>0||j>0){if(i>0&&j>0&&a[i-1]===b[j-1]){r.unshift({t:'eq',v:a[i-1]});i--;j--}else if(j>0&&(i===0||dp[i][j-1]>=dp[i-1][j])){r.unshift({t:'add',v:b[j-1]});j--}else if(i>0){r.unshift({t:'rem',v:a[i-1]});i--}}let h='',ad=0,rm=0;const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');r.forEach(d=>{if(d.t==='eq')h+='<span class="diff-eq">  '+esc(d.v)+'</span>\n';else if(d.t==='rem'){h+='<span class="diff-rem">- '+esc(d.v)+'</span>\n';rm++}else{h+='<span class="diff-add">+ '+esc(d.v)+'</span>\n';ad++}});h+='\n<b>— '+rm+' 行删除, +'+ad+' 行新增</b>';document.getElementById('diff-out').innerHTML=h;document.getElementById('diff-out').className='result'}
+function swapDiff(){const a=document.getElementById('diff-a'),b=document.getElementById('diff-b');[a.value,b.value]=[b.value,a.value]}
+function clearDiff(){document.getElementById('diff-a').value='';document.getElementById('diff-b').value='';document.getElementById('diff-out').innerHTML='点击"对比差异"查看...';document.getElementById('diff-out').className='result'}
+
+// ── Markdown ──
+function renderMd(md){let h=md.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');h=h.replace(/```(\w*)\n([\s\S]*?)```/g,'<pre><code>$2</code></pre>');h=h.replace(/`([^`]+)`/g,'<code>$1</code>');h=h.replace(/^#### (.+)$/gm,'<h4>$1</h4>');h=h.replace(/^### (.+)$/gm,'<h3>$1</h3>');h=h.replace(/^## (.+)$/gm,'<h2>$1</h2>');h=h.replace(/^# (.+)$/gm,'<h1>$1</h1>');h=h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');h=h.replace(/\*(.+?)\*/g,'<i>$1</i>');h=h.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img src="$2" alt="$1">');h=h.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>');h=h.replace(/^&gt; (.+)$/gm,'<blockquote>$1</blockquote>');h=h.replace(/^---$/gm,'<hr>');h=h.replace(/^\- (.+)$/gm,'<li>$1</li>');h=h.replace(/(<li>.*<\/li>\n?)+/g,'<ul>$&</ul>');h=h.replace(/\n\n/g,'</p><p>');h='<p>'+h+'</p>';h=h.replace(/<p>\s*<\/p>/g,'');return h}
+document.getElementById('md-in').addEventListener('input',()=>{document.getElementById('md-preview').innerHTML=renderMd(document.getElementById('md-in').value)});
+document.getElementById('md-preview').innerHTML=renderMd(document.getElementById('md-in').value);
+function copyMdHtml(){navigator.clipboard.writeText(document.getElementById('md-preview').innerHTML).then(()=>{const b=event.target;b.textContent='✅已复制';setTimeout(()=>b.textContent='📋复制HTML',1500)})}
+function clearMd(){document.getElementById('md-in').value='';document.getElementById('md-preview').innerHTML=''}
+
+// ── Helpers ──
+function showErr(id,msg){const el=document.getElementById(id);el.className='result error';el.textContent='❌ 错误: '+msg}
+
+// ── MD5 (Public Domain) ──
+function md5(string){function rL(v,b){return(v<<b)|(v>>>(32-b))}function aU(lX,lY){var lX8=(lX&0x80000000),lY8=(lY&0x80000000),lX4=(lX&0x40000000),lY4=(lY&0x40000000),lR=(lX&0x3FFFFFFF)+(lY&0x3FFFFFFF);if(lX4&lY4)return lR^0x80000000^lX8^lY8;if(lX4|lY4){if(lR&0x40000000)return lR^0xC0000000^lX8^lY8;else return lR^0x40000000^lX8^lY8}else return lR^lX8^lY8}function F(x,y,z){return(x&y)|((~x)&z)}function G(x,y,z){return(x&z)|(y&(~z))}function H(x,y,z){return(x^y^z)}function I(x,y,z){return(y^(x|(~z)))}function FF(a,b,c,d,x,s,ac){a=aU(a,aU(aU(F(b,c,d),x),ac));return aU(rL(a,s),b)}function GG(a,b,c,d,x,s,ac){a=aU(a,aU(aU(G(b,c,d),x),ac));return aU(rL(a,s),b)}function HH(a,b,c,d,x,s,ac){a=aU(a,aU(aU(H(b,c,d),x),ac));return aU(rL(a,s),b)}function II(a,b,c,d,x,s,ac){a=aU(a,aU(aU(I(b,c,d),x),ac));return aU(rL(a,s),b)}function cW(string){var lWC,lML=string.length,lNW1=lML+8,lNW2=(lNW1-(lNW1%64))/64,lNW=(lNW2+1)*16,lWA=Array(lNW-1),lBP=0,lBC=0;while(lBC<lML){lWC=(lBC-(lBC%4))/4;lBP=(lBC%4)*8;lWA[lWC]=(lWA[lWC]|(string.charCodeAt(lBC)<<lBP));lBC++}lWC=(lBC-(lBC%4))/4;lBP=(lBC%4)*8;lWA[lWC]=lWA[lWC]|(0x80<<lBP);lWA[lNW-2]=lML<<3;lWA[lNW-1]=lML>>>29;return lWA}function wH(v){var whv="",whvt="",lB,lC;for(lC=0;lC<=3;lC++){lB=(v>>>(lC*8))&255;whvt="0"+lB.toString(16);whv=whv+whvt.substr(whvt.length-2,2)}return whv}var x=Array(),k,AA,BB,CC,DD,a,b,c,d,S11=7,S12=12,S13=17,S14=22,S21=5,S22=9,S23=14,S24=20,S31=4,S32=11,S33=16,S34=23,S41=6,S42=10,S43=15,S44=21;string=unescape(encodeURIComponent(string));x=cW(string);a=0x67452301;b=0xEFCDAB89;c=0x98BADCFE;d=0x10325476;for(k=0;k<x.length;k+=16){AA=a;BB=b;CC=c;DD=d;a=FF(a,b,c,d,x[k+0],S11,0xD76AA478);d=FF(d,a,b,c,x[k+1],S12,0xE8C7B756);c=FF(c,d,a,b,x[k+2],S13,0x242070DB);b=FF(b,c,d,a,x[k+3],S14,0xC1BDCEEE);a=FF(a,b,c,d,x[k+4],S11,0xF57C0FAF);d=FF(d,a,b,c,x[k+5],S12,0x4787C62A);c=FF(c,d,a,b,x[k+6],S13,0xA8304613);b=FF(b,c,d,a,x[k+7],S14,0xFD469501);a=FF(a,b,c,d,x[k+8],S11,0x698098D8);d=FF(d,a,b,c,x[k+9],S12,0x8B44F7AF);c=FF(c,d,a,b,x[k+10],S13,0xFFFF5BB1);b=FF(b,c,d,a,x[k+11],S14,0x895CD7BE);a=FF(a,b,c,d,x[k+12],S11,0x6B901122);d=FF(d,a,b,c,x[k+13],S12,0xFD987193);c=FF(c,d,a,b,x[k+14],S13,0xA679438E);b=FF(b,c,d,a,x[k+15],S14,0x49B40821);a=GG(a,b,c,d,x[k+1],S21,0xF61E2562);d=GG(d,a,b,c,x[k+6],S22,0xC040B340);c=GG(c,d,a,b,x[k+11],S23,0x265E5A51);b=GG(b,c,d,a,x[k+0],S24,0xE9B6C7AA);a=GG(a,b,c,d,x[k+5],S21,0xD62F105D);d=GG(d,a,b,c,x[k+10],S22,0x2441453);c=GG(c,d,a,b,x[k+15],S23,0xD8A1E681);b=GG(b,c,d,a,x[k+4],S24,0xE7D3FBC8);a=GG(a,b,c,d,x[k+9],S21,0x21E1CDE6);d=GG(d,a,b,c,x[k+14],S22,0xC33707D6);c=GG(c,d,a,b,x[k+3],S23,0xF4D50D87);b=GG(b,c,d,a,x[k+8],S24,0x455A14ED);a=GG(a,b,c,d,x[k+13],S21,0xA9E3E905);d=GG(d,a,b,c,x[k+2],S22,0xFCEFA3F8);c=GG(c,d,a,b,x[k+7],S23,0x676F02D9);b=GG(b,c,d,a,x[k+12],S24,0x8D2A4C8A);a=HH(a,b,c,d,x[k+5],S31,0xFFFA3942);d=HH(d,a,b,c,x[k+8],S32,0x8771F681);c=HH(c,d,a,b,x[k+11],S33,0x6D9D6122);b=HH(b,c,d,a,x[k+14],S34,0xFDE5380C);a=HH(a,b,c,d,x[k+1],S31,0xA4BEEA44);d=HH(d,a,b,c,x[k+4],S32,0x4BDECFA9);c=HH(c,d,a,b,x[k+7],S33,0xF6BB4B60);b=HH(b,c,d,a,x[k+10],S34,0xBEBFBC70);a=HH(a,b,c,d,x[k+13],S31,0x289B7EC6);d=HH(d,a,b,c,x[k+9],S32,0xEAA127FA);c=HH(c,d,a,b,x[k+3],S33,0xD4EF3085);b=HH(b,c,d,a,x[k+0],S34,0x4881D05);a=HH(a,b,c,d,x[k+6],S31,0xD9D4D039);d=HH(d,a,b,c,x[k+15],S32,0xE6DB99E5);c=HH(c,d,a,b,x[k+12],S33,0x1FA27CF8);b=HH(b,c,d,a,x[k+2],S34,0xC4AC5665);a=II(a,b,c,d,x[k+0],S41,0xF4292244);d=II(d,a,b,c,x[k+7],S42,0x432AFF97);c=II(c,d,a,b,x[k+14],S43,0xAB9423A7);b=II(b,c,d,a,x[k+5],S44,0xFC93A039);a=II(a,b,c,d,x[k+12],S41,0x655B59C3);d=II(d,a,b,c,x[k+3],S42,0x8F0CCC92);c=II(c,d,a,b,x[k+10],S43,0xFFEFF47D);b=II(b,c,d,a,x[k+1],S44,0x85845DD1);a=II(a,b,c,d,x[k+8],S41,0x6FA87E4F);d=II(d,a,b,c,x[k+15],S42,0xFE2CE6E0);c=II(c,d,a,b,x[k+6],S43,0xA3014314);b=II(b,c,d,a,x[k+13],S44,0x4E0811A1);a=II(a,b,c,d,x[k+4],S41,0xF7537E82);d=II(d,a,b,c,x[k+10],S42,0xBD3AF235);c=II(c,d,a,b,x[k+2],S43,0x2AD7D2BB);b=II(b,c,d,a,x[k+9],S44,0xEB86D391);a=aU(a,AA);b=aU(b,BB);c=aU(c,CC);d=aU(d,DD)}return(wH(a)+wH(b)+wH(c)+wH(d)).toLowerCase()}
+
+// 初始渲染
+qrGen();
+</script>
+</body>
+</html>
