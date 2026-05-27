@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="在线 HTML Entity 编解码工具 — HTML实体编码与解码，纯前端运行">
+<title>HTML Entity 编解码 — Dev工具箱</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../monet.css">
+</head>
+<body>
+<header class="tool-header"><div class="container"><h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> HTML Entity 编解码</h1><a href="../index.html">← 返回</a></div></header>
+<main class="container tool-main">
+<div class="label-row"><span>输入</span></div>
+<textarea id="input" rows="6" placeholder="输入文本或 HTML 实体..."><div>Hello &amp; Welcome</div></textarea>
+<div class="control-row">
+  <button onclick="encode()">编码 (Encode)</button>
+  <button onclick="decode()">解码 (Decode)</button>
+  <button class="btn-copy" onclick="copyResult()">📋 复制</button>
+  <button class="btn-outline" onclick="clearAll()">清空</button>
+</div>
+<div class="label-row"><span>结果</span></div>
+<div id="output" class="result-box">点击按钮编解码...</div>
+</main>
+<footer><div class="container"><p>© 2025 Dev工具箱 · 纯前端运行 · <a href="../index.html">返回首页</a></p></div></footer>
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+function encode() {
+  const div = document.createElement('div');
+  div.appendChild(document.createTextNode(input.value));
+  output.className = 'result-box';
+  output.textContent = div.innerHTML;
+}
+function decode() {
+  const div = document.createElement('div');
+  div.innerHTML = input.value;
+  output.className = 'result-box';
+  output.textContent = div.textContent;
+}
+function copyResult() {
+  navigator.clipboard.writeText(output.textContent).then(() => {
+    const b = event.target; b.textContent = '✅ 已复制'; setTimeout(() => b.textContent = '📋 复制', 1500);
+  });
+}
+function clearAll() { input.value = ''; output.textContent = ''; output.className = 'result-box'; }
+</script>
+<script src="../monet.js"></script>
+</body>
+</html>

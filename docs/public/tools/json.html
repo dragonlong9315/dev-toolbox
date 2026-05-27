@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="在线 JSON 格式化/压缩/校验工具 — 纯前端运行，数据不上传">
+<title>JSON 格式化 — Dev工具箱</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../monet.css">
+</head>
+<body>
+<header class="tool-header">
+  <div class="container">
+    <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8h.01M8 12h.01M8 16h.01M16 8h.01M16 12h.01M16 16h.01"/></svg> JSON 格式化 / 校验</h1>
+    <a href="../index.html">← 返回工具箱</a>
+  </div>
+</header>
+<main class="container tool-main">
+  <div class="label-row"><span>输入 JSON</span></div>
+  <textarea id="input" rows="10" placeholder='{"name":"Dev工具箱","version":1}'></textarea>
+  <div class="control-row">
+    <button onclick="format()">格式化</button>
+    <button onclick="compress()">压缩</button>
+    <button onclick="validate()">校验</button>
+    <button class="btn-copy" onclick="copyResult()">📋 复制结果</button>
+    <button class="btn-outline" onclick="clearAll()">清空</button>
+  </div>
+  <div class="label-row"><span>输出</span></div>
+  <div id="output" class="result-box">等待输入...</div>
+</main>
+<footer><div class="container"><p>© 2025 Dev工具箱 · 纯前端运行 · <a href="../index.html">返回首页</a></p></div></footer>
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+function format() {
+  try {
+    const obj = JSON.parse(input.value);
+    output.className = 'result-box';
+    output.textContent = JSON.stringify(obj, null, 2);
+  } catch (e) {
+    output.className = 'result-box error';
+    output.textContent = '❌ JSON 解析错误: ' + e.message;
+  }
+}
+
+function compress() {
+  try {
+    const obj = JSON.parse(input.value);
+    output.className = 'result-box';
+    output.textContent = JSON.stringify(obj);
+  } catch (e) {
+    output.className = 'result-box error';
+    output.textContent = '❌ JSON 解析错误: ' + e.message;
+  }
+}
+
+function validate() {
+  try {
+    JSON.parse(input.value);
+    output.className = 'result-box';
+    output.textContent = '✅ 有效的 JSON！\n\n' + JSON.stringify(JSON.parse(input.value), null, 2);
+  } catch (e) {
+    output.className = 'result-box error';
+    output.textContent = '❌ 无效 JSON: ' + e.message;
+  }
+}
+
+function copyResult() {
+  navigator.clipboard.writeText(output.textContent).then(() => {
+    const btn = event.target;
+    btn.textContent = '✅ 已复制';
+    setTimeout(() => btn.textContent = '📋 复制结果', 1500);
+  });
+}
+
+function clearAll() { input.value = ''; output.textContent = '等待输入...'; output.className = 'result-box'; }
+</script>
+<script src="../monet.js"></script>
+</body>
+</html>

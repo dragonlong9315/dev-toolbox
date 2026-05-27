@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="在线 URL 编解码工具 — URL Encode / URL Decode，纯前端运行">
+<title>URL 编解码 — Dev工具箱</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../monet.css">
+</head>
+<body>
+<header class="tool-header">
+  <div class="container">
+    <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> URL 编解码</h1>
+    <a href="../index.html">← 返回工具箱</a>
+  </div>
+</header>
+<main class="container tool-main">
+  <div class="label-row"><span>输入</span></div>
+  <textarea id="input" rows="6" placeholder="输入要编码/解码的文本或 URL..."></textarea>
+  <div class="control-row">
+    <button onclick="urlEncode()">URL 编码 (Encode)</button>
+    <button onclick="urlDecode()">URL 解码 (Decode)</button>
+    <button onclick="encodeURI()">编码完整 URI</button>
+    <button onclick="decodeURI()">解码完整 URI</button>
+    <button class="btn-copy" onclick="copyResult()">📋 复制</button>
+    <button class="btn-outline" onclick="clearAll()">清空</button>
+  </div>
+  <div class="label-row"><span>结果</span></div>
+  <div id="output" class="result-box">等待输入...</div>
+</main>
+<footer><div class="container"><p>© 2025 Dev工具箱 · 纯前端运行 · <a href="../index.html">返回首页</a></p></div></footer>
+<script>
+const input = document.getElementById('input');
+const output = document.getElementById('output');
+
+function urlEncode() {
+  output.className = 'result-box';
+  output.textContent = encodeURIComponent(input.value);
+}
+function urlDecode() {
+  try {
+    output.className = 'result-box';
+    output.textContent = decodeURIComponent(input.value);
+  } catch (e) {
+    output.className = 'result-box error';
+    output.textContent = '❌ 解码失败: ' + e.message;
+  }
+}
+function encodeURI_full() {
+  output.className = 'result-box';
+  output.textContent = encodeURI(input.value);
+}
+function decodeURI_full() {
+  try {
+    output.className = 'result-box';
+    output.textContent = decodeURI(input.value);
+  } catch (e) {
+    output.className = 'result-box error';
+    output.textContent = '❌ 解码失败: ' + e.message;
+  }
+}
+function copyResult() {
+  navigator.clipboard.writeText(output.textContent).then(() => {
+    const btn = event.target; btn.textContent = '✅ 已复制'; setTimeout(() => btn.textContent = '📋 复制', 1500);
+  });
+}
+function clearAll() { input.value = ''; output.textContent = '等待输入...'; output.className = 'result-box'; }
+</script>
+<script src="../monet.js"></script>
+</body>
+</html>

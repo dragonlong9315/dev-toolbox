@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="在线文本 Diff 对比工具 — 逐行比较两段文本差异，纯前端运行">
+<title>文本 Diff 对比 — Dev工具箱</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../monet.css">
+</head>
+<body>
+<header class="tool-header">
+  <div class="container">
+    <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="18" rx="1"/><rect x="13" y="3" width="8" height="18" rx="1"/><line x1="7" y1="8" x2="7" y2="8.01"/><line x1="7" y1="12" x2="7" y2="12.01"/><line x1="7" y1="16" x2="7" y2="16.01"/><line x1="17" y1="8" x2="17" y2="8.01"/><line x1="17" y1="12" x2="17" y2="12.01"/><line x1="17" y1="16" x2="17" y2="16.01"/></svg> 文本 Diff 对比</h1>
+    <a href="../index.html">← 返回工具箱</a>
+  </div>
+</header>
+<main class="container tool-main">
+  <div class="two-col">
+    <div>
+      <div class="label-row"><span>原始文本 (A)</span></div>
+      <textarea id="textA" rows="10" placeholder="原始文本...">const a = 1;
+const b = 2;
+console.log(a + b);
+function hello() {
+  return "world";
+}</textarea>
+    </div>
+    <div>
+      <div class="label-row"><span>修改后文本 (B)</span></div>
+      <textarea id="textB" rows="10" placeholder="修改后文本...">const a = 1;
+const b = 3;
+console.log(a + b);
+function hello(name) {
+  return `Hello ${name}`;
+}
+function goodbye() {
+  return "bye";
+}</textarea>
+    </div>
+  </div>
+  <div class="control-row">
+    <button onclick="compare()">对比差异</button>
+    <button class="btn-outline" onclick="swapTexts()">交换 A/B</button>
+    <button class="btn-outline" onclick="clearAll()">清空</button>
+  </div>
+  <div class="label-row"><span>差异结果</span></div>
+  <div id="output" class="result-box" style="font-family:monospace">点击"对比差异"查看结果...</div>
+</main>
+<footer><div class="container"><p>© 2025 Dev工具箱 · 纯前端运行 · <a href="../index.html">返回首页</a></p></div></footer>
+<script>
+function compare() {
+  const textA = document.getElementById('textA').value;
+  const textB = document.getElementById('textB').value;
+  const output = document.getElementById('output');
+  output.className = 'result-box';
+
+  if (!textA && !textB) { output.innerHTML = '请至少输入一段文本'; return; }
+
+  const linesA = textA.split('\n');
+  const linesB = textB.split('\n');
+
+  // 使用简化的 LCS 逐行 diff
+  const diff = computeDiff(linesA, linesB);
+  let html = '';
+  let added = 0, removed = 0;
+
+  for (const d of diff) {
+    if (d.type === 'equal') {
+      html += `<span class="diff-equal">  ${escapeHtml(d.text)}</span>\n`;
+    } else if (d.type === 'removed') {
+      html += `<span class="diff-removed">- ${escapeHtml(d.text)}</span>\n`;
+      removed++;
+    } else if (d.type === 'added') {
+      html += `<span class="diff-added">+ ${escapeHtml(d.text)}</span>\n`;
+      added++;
+    }
+  }
+
+  html += `\n<b>— ${removed} 行删除, +${added} 行新增</b>`;
+  output.innerHTML = html;
+}
+
+function computeDiff(linesA, linesB) {
+  // 简化的 LCS diff
+  const m = linesA.length, n = linesB.length;
+  const dp = Array.from({length: m + 1}, () => Array(n + 1).fill(0));
+
+  for (let i = 1; i <= m; i++) {
+    for (let j = 1; j <= n; j++) {
+      if (linesA[i - 1] === linesB[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
+    }
+  }
+
+  // 回溯
+  const result = [];
+  let i = m, j = n;
+  while (i > 0 || j > 0) {
+    if (i > 0 && j > 0 && linesA[i - 1] === linesB[j - 1]) {
+      result.unshift({ type: 'equal', text: linesA[i - 1] });
+      i--; j--;
+    } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+      result.unshift({ type: 'added', text: linesB[j - 1] });
+      j--;
+    } else if (i > 0) {
+      result.unshift({ type: 'removed', text: linesA[i - 1] });
+      i--;
+    }
+  }
+
+  return result;
+}
+
+function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function swapTexts() {
+  const textA = document.getElementById('textA');
+  const textB = document.getElementById('textB');
+  [textA.value, textB.value] = [textB.value, textA.value];
+}
+
+function clearAll() {
+  document.getElementById('textA').value = '';
+  document.getElementById('textB').value = '';
+  document.getElementById('output').innerHTML = '点击"对比差异"查看结果...';
+  document.getElementById('output').className = 'result-box';
+}
+</script>
+<script src="../monet.js"></script>
+</body>
+</html>

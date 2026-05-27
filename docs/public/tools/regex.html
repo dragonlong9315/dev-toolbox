@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="在线正则表达式测试工具 — 实时匹配高亮，纯前端运行">
+<title>正则表达式测试 — Dev工具箱</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../monet.css">
+</head>
+<body>
+<header class="tool-header">
+  <div class="container">
+    <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7l3 3-3 3M14 17l3-3-3-3"/></svg> 正则表达式测试</h1>
+    <a href="../index.html">← 返回工具箱</a>
+  </div>
+</header>
+<main class="container tool-main">
+  <div class="label-row"><span>正则表达式</span></div>
+  <input type="text" id="pattern" placeholder="例如: \d{4}-\d{2}-\d{2}" style="font-family:monospace">
+  <div class="control-row">
+    <label><input type="checkbox" id="flag_g" checked> 全局 (g)</label>
+    <label><input type="checkbox" id="flag_i"> 忽略大小写 (i)</label>
+    <label><input type="checkbox" id="flag_m"> 多行 (m)</label>
+    <button onclick="test()">🔍 测试匹配</button>
+  </div>
+  <div class="label-row"><span>测试文本</span></div>
+  <textarea id="text" rows="8" placeholder="输入要匹配的文本...">2025-01-15 会议记录
+2025-02-28 项目截止
+2025-03-10 版本发布</textarea>
+  <div class="label-row"><span>匹配结果</span></div>
+  <div id="output" class="result-box">等待测试...</div>
+</main>
+<footer><div class="container"><p>© 2025 Dev工具箱 · 纯前端运行 · <a href="../index.html">返回首页</a></p></div></footer>
+<script>
+const patternEl = document.getElementById('pattern');
+const textEl = document.getElementById('text');
+const output = document.getElementById('output');
+
+function test() {
+  const pattern = patternEl.value;
+  if (!pattern) { output.innerHTML = '请输入正则表达式'; return; }
+  const flags = [
+    document.getElementById('flag_g').checked ? 'g' : '',
+    document.getElementById('flag_i').checked ? 'i' : '',
+    document.getElementById('flag_m').checked ? 'm' : '',
+  ].join('');
+
+  try {
+    const re = new RegExp(pattern, flags);
+    const text = textEl.value;
+    const matches = text.match(re);
+
+    output.className = 'result-box';
+    if (!matches || matches.length === 0) {
+      output.innerHTML = '⚠️ 无匹配结果';
+      return;
+    }
+
+    // 高亮匹配
+    const isGlobal = flags.includes('g');
+    let highlighted = text;
+    if (isGlobal) {
+      highlighted = text.replace(re, m => `<mark>${m}</mark>`);
+    } else {
+      // 非全局模式，只高亮第一个匹配
+      const m = re.exec(text);
+      if (m) {
+        highlighted = text.slice(0, m.index) + `<mark>${m[0]}</mark>` + text.slice(m.index + m[0].length);
+      }
+    }
+
+    let summary = `<b>匹配数:</b> ${matches.length}<br>`;
+    summary += `<b>匹配内容:</b><br>`;
+    matches.forEach((m, i) => {
+      summary += `  [${i + 1}] ${escapeHtml(m)}<br>`;
+    });
+    summary += `<br><b>高亮预览:</b><br>${highlighted}`;
+
+    output.innerHTML = summary;
+  } catch (e) {
+    output.className = 'result-box error';
+    output.innerHTML = `❌ 正则语法错误: ${e.message}`;
+  }
+}
+
+function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// 实时测试
+patternEl.addEventListener('input', test);
+textEl.addEventListener('input', test);
+document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.addEventListener('change', test));
+</script>
+<script src="../monet.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="在线 Markdown 预览工具 — 实时预览 Markdown 渲染效果，纯前端运行">
+<title>Markdown 预览 — Dev工具箱</title>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../monet.css">
+<style>
+  .markdown-preview { background: #fff; padding: 20px; border-radius: 8px; border: 1px solid var(--border); min-height: 200px; }
+  .markdown-preview h1, .markdown-preview h2 { border-bottom: 1px solid #eee; padding-bottom: 6px; margin: 16px 0 8px; }
+  .markdown-preview code { background: #f1f3f5; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+  .markdown-preview pre { background: #212529; color: #f8f9fa; padding: 16px; border-radius: 8px; overflow-x: auto; }
+  .markdown-preview pre code { background: none; color: inherit; padding: 0; }
+  .markdown-preview blockquote { border-left: 4px solid var(--primary); margin: 8px 0; padding: 8px 16px; background: #f1f3f5; }
+  .markdown-preview table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+  .markdown-preview th, .markdown-preview td { border: 1px solid var(--border); padding: 8px 12px; text-align: left; }
+  .markdown-preview th { background: #f1f3f5; }
+  .markdown-preview img { max-width: 100%; }
+</style>
+</head>
+<body>
+<header class="tool-header">
+  <div class="container">
+    <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><polyline points="8 15 12 9 16 15"/><line x1="9.5" y1="13" x2="14.5" y2="13"/></svg> Markdown 预览</h1>
+    <a href="../index.html">← 返回工具箱</a>
+  </div>
+</header>
+<main class="container tool-main">
+  <div class="two-col">
+    <div>
+      <div class="label-row"><span>Markdown 源码</span></div>
+      <textarea id="input" rows="20" placeholder="输入 Markdown 文本..."># Dev工具箱
+
+## 功能
+- **JSON 格式化** — 一键美化
+- *Base64 编解码*
+- \`时间戳转换\`
+
+## 代码示例
+\`\`\`javascript
+console.log("Hello World!");
+\`\`\`
+
+> 所有处理在浏览器端完成，数据不会上传。
+
+| 工具 | 类型 |
+|------|------|
+| JSON | 格式化 |
+| Base64 | 编解码 |
+</textarea>
+    </div>
+    <div>
+      <div class="label-row"><span>预览</span></div>
+      <div id="preview" class="markdown-preview"></div>
+    </div>
+  </div>
+  <div class="control-row" style="margin-top:12px">
+    <button class="btn-copy" onclick="copyHtml()">📋 复制 HTML</button>
+    <button class="btn-outline" onclick="clearAll()">清空</button>
+  </div>
+</main>
+<footer><div class="container"><p>© 2025 Dev工具箱 · 纯前端运行 · <a href="../index.html">返回首页</a></p></div></footer>
+<script>
+const input = document.getElementById('input');
+const preview = document.getElementById('preview');
+
+function renderMarkdown(md) {
+  let html = md;
+  // 转义 HTML
+  html = html.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  // 代码块 ```
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code class="$1">$2</code></pre>');
+  // 行内代码 `
+  html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // 标题
+  html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+  // 粗体 ** **
+  html = html.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  // 斜体 * *
+  html = html.replace(/\*(.+?)\*/g, '<i>$1</i>');
+  // 图片
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+  // 链接
+  html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  // 引用 >
+  html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+  // 水平线
+  html = html.replace(/^---$/gm, '<hr>');
+  // 无序列表
+  html = html.replace(/^\- (.+)$/gm, '<li>$1</li>');
+  html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+  // 表格
+  html = html.replace(/^\|(.+)\|$/gm, function(match) {
+    const cells = match.split('|').filter(c => c.trim()).map(c => c.trim());
+    if (cells.every(c => /^[-:]+$/.test(c))) return ''; // 分隔行
+    const tag = match.includes('---') ? 'td' : 'th';
+    return '<tr>' + cells.map(c => `<${tag}>${c}</${tag}>`).join('') + '</tr>';
+  });
+  // 换行
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = '<p>' + html + '</p>';
+  // 清理空标签
+  html = html.replace(/<p>\s*<\/p>/g, '');
+  html = html.replace(/<p><\/p>/g, '');
+
+  return html;
+}
+
+function update() {
+  preview.innerHTML = renderMarkdown(input.value);
+}
+
+input.addEventListener('input', update);
+
+function copyHtml() {
+  navigator.clipboard.writeText(preview.innerHTML).then(() => {
+    const btn = event.target; btn.textContent = '✅ 已复制'; setTimeout(() => btn.textContent = '📋 复制 HTML', 1500);
+  });
+}
+
+function clearAll() {
+  input.value = '';
+  preview.innerHTML = '';
+}
+
+// 初始渲染
+update();
+</script>
+<script src="../monet.js"></script>
+</body>
+</html>
