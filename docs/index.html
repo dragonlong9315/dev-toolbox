@@ -22,15 +22,17 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
     <input type="text" id="searchInput" placeholder="搜索工具..." oninput="filterTools()">
   </div>
-  <div style="display:flex;align-items:center;gap:10px">
+  <div class="nav-right">
     <div id="monetPalette" style="display:flex;gap:6px"></div>
     <button id="themeToggle" class="theme-toggle" title="切换暗色/亮色主题" aria-label="切换主题"></button>
   </div>
 </nav>
 
 <!-- HERO -->
+<div class="hero-wrapper">
+<canvas id="heroCanvas"></canvas>
 <section class="hero">
-  <h1>开发者<span>工具箱</span></h1>
+  <h1>开发者<span class="accent">工具箱</span></h1>
   <p>15个实用工具，全部在浏览器本地运行。无需下载，无需注册，数据绝不上传。</p>
   <div class="stats">
     <div class="stat"><div class="num">15</div><div class="lbl">在线工具</div></div>
@@ -38,6 +40,7 @@
     <div class="stat"><div class="num">∞</div><div class="lbl">永久免费</div></div>
   </div>
 </section>
+</div>
 
 <!-- TOOLS -->
 <main class="container">
@@ -202,6 +205,8 @@
 </footer>
 
 <script src="monet.js"></script>
+<script src="canvas3d.js"></script>
+<script src="scroll-animations.js"></script>
 <script>
 function filterTools(){
   const q = document.getElementById('searchInput').value.toLowerCase().trim();
