@@ -225,9 +225,10 @@ footer .footer-links a:hover{color:#fff}
 
 /* ── Tool Pages ── */
 .tool-header{
-  border-bottom:1px solid var(--line);padding:10px 0;
-  background:rgba(255,255,255,.85);backdrop-filter:blur(16px);
-  position:sticky;top:0;z-index:50;margin-top:0;
+  border-top:1px solid var(--line);padding:10px 0;
+  background:rgba(255,255,255,.88);backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  position:sticky;bottom:0;z-index:50;
 }
 .tool-header .container{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .tool-header h1{font-size:clamp(.85rem,2.5vw,1rem);font-weight:700;display:flex;align-items:center;gap:6px}
