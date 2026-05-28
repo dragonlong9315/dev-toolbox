@@ -300,3 +300,56 @@ footer .footer-links a:hover{color:#fff}
   .tool-card p,.tool-card .tag{display:none}
 }
 .monet-dot{border:2px solid transparent!important}.monet-dot:hover{transform:scale(1.2)}.monet-dot.active{border-color:var(--pri)!important}
+
+/* ═══════════════════════════════════════════
+   暗色模式 — 全局修复
+   ═══════════════════════════════════════════ */
+[data-theme="dark"] {
+  --text: #e4e4e7;
+  --text-2: #a1a1aa;
+  --text-3: #71717a;
+  --bg: #18181b;
+  --bg-2: #27272a;
+  --card: rgba(39,39,42,.65);
+  --card-solid: #27272a;
+  --line: #27272a;
+  --line-2: #3f3f46;
+  --pri-l: #1e1b4b;
+  --shadow-xs: 0 1px 2px rgba(0,0,0,.2);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.3);
+  --shadow: 0 4px 6px -1px rgba(0,0,0,.4);
+  --shadow-md: 0 10px 15px -3px rgba(0,0,0,.5);
+  --shadow-lg: 0 24px 48px -12px rgba(0,0,0,.6);
+}
+[data-theme="dark"] body{background:var(--bg)}
+[data-theme="dark"] nav{background:rgba(24,24,27,.72);border-bottom-color:rgba(255,255,255,.06)}
+[data-theme="dark"] nav.scrolled{background:rgba(24,24,27,.9);border-bottom-color:rgba(255,255,255,.1)}
+[data-theme="dark"] .section-hero nav{background:rgba(15,15,30,.6)}
+[data-theme="dark"] .section-hero nav.scrolled{background:rgba(15,15,30,.85)}
+[data-theme="dark"] .tool-card{background:var(--card);border-color:var(--line-2);color:var(--text)}
+[data-theme="dark"] .tool-card:hover{border-color:rgba(255,255,255,.1)}
+[data-theme="dark"] .tool-card .icon-wrap{background:rgba(255,255,255,.06)}
+[data-theme="dark"] .tool-card p,.tool-card .tag{color:var(--text-3)}
+[data-theme="dark"] .tool-card .tag{background:rgba(255,255,255,.05)}
+[data-theme="dark"] .tool-header{background:rgba(24,24,27,.85);border-bottom-color:var(--line-2)}
+[data-theme="dark"] .tool-main textarea,
+[data-theme="dark"] .tool-main input[type="text"],
+[data-theme="dark"] .tool-main input[type="number"]{
+  background:var(--card-solid);color:var(--text);border-color:var(--line-2);
+}
+[data-theme="dark"] .result-box{background:var(--bg-2);border-color:var(--line-2);color:var(--text)}
+[data-theme="dark"] .btn-outline{background:var(--card-solid);color:var(--text);border-color:var(--line-2)}
+[data-theme="dark"] .btn-outline:hover{background:var(--bg-2)}
+[data-theme="dark"] .label-row{color:var(--text)}
+[data-theme="dark"] .section-tools{background:linear-gradient(180deg,#18181b 0%,#1e1b2e 40%,#1a1a2e 100%)}
+[data-theme="dark"] .hero .subtitle{color:rgba(255,255,255,.5)}
+[data-theme="dark"] .hero .actions .btn-primary{background:#e4e4e7;color:#18181b}
+[data-theme="dark"] .section-header p{color:var(--text-3)}
+[data-theme="dark"] .lang-dropdown{background:rgba(39,39,42,.98);border-color:var(--line-2)}
+[data-theme="dark"] .lang-dropdown button{color:var(--text)}
+[data-theme="dark"] .lang-dropdown button:hover{background:rgba(99,102,241,.15);color:var(--pri)}
+[data-theme="dark"] .no-results{color:var(--text-3)}
+[data-theme="dark"] .error{background:rgba(220,38,38,.15);border-color:rgba(220,38,38,.3);color:#fca5a5}
+[data-theme="dark"] .diff-added{background:rgba(22,163,74,.15);color:#86efac}
+[data-theme="dark"] .diff-removed{background:rgba(220,38,38,.15);color:#fca5a5}
+[data-theme="dark"] .control-row label{color:var(--text-2)}
