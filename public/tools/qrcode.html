@@ -27,8 +27,7 @@
     <p id="placeholder" style="color:var(--text-3);padding:40px">点击生成二维码</p>
   </div>
   <div class="control-row" style="justify-content:center;gap:10px">
-    <button id="downloadPngBtn" class="btn-copy" onclick="downloadQR('png')" style="display:none">📥 下载 PNG</button>
-    <button id="downloadJpgBtn" class="btn-copy" onclick="downloadQR('jpg')" style="display:none">📥 下载 JPG</button>
+    <button id="downloadPngBtn" class="btn-copy" onclick="downloadQR()" style="display:none">📥 下载保存</button>
   </div>
 </main>
 <footer><div class="container"><p>© 2025 Dev工具箱 · <a href="https://github.com/dragonlong9315/dev-toolbox" target="_blank">GitHub</a> · <a href="../index.html">返回首页</a></p></div></footer>
@@ -39,39 +38,41 @@ function generate() {
   const canvas = document.getElementById('qrcode');
   const placeholder = document.getElementById('placeholder');
   const dPng = document.getElementById('downloadPngBtn');
-  const dJpg = document.getElementById('downloadJpgBtn');
 
   if (!text) { placeholder.textContent = '请输入文本'; return; }
 
   const img = new Image();
+  img.crossOrigin = 'anonymous';
   img.onload = function() {
     const ctx = canvas.getContext('2d');
     canvas.width = Math.min(size, 600);
     canvas.height = Math.min(size, 600);
     ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    try { ctx.drawImage(img, 0, 0, canvas.width, canvas.height); } catch(e) {}
     canvas.style.display = 'block';
     canvas.style.margin = '0 auto';
     canvas.style.maxWidth = '100%';
     placeholder.style.display = 'none';
     dPng.style.display = 'inline-flex';
-    dJpg.style.display = 'inline-flex';
   };
   img.onerror = function() {
     placeholder.textContent = '生成失败，请检查输入';
     canvas.style.display = 'none';
-    dPng.style.display = 'none'; dJpg.style.display = 'none';
+    dPng.style.display = 'none';
     placeholder.style.display = 'block';
   };
-  img.src = 'https://api.qrserver.com/v1/create-qr-code/?size='+Math.min(size,600)+'x'+Math.min(size,600)+'&data='+encodeURIComponent(text);
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size='+Math.min(size,600)+'x'+Math.min(size,600)+'&data='+encodeURIComponent(text);
+  qrImageUrl = qrUrl;
+  img.src = qrUrl;
 }
 
-function downloadQR(fmt) {
-  const c = document.getElementById('qrcode');
-  const link = document.createElement('a');
-  link.download = 'qrcode.' + fmt;
-  link.href = fmt === 'png' ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', 0.92);
-  link.click();
+let qrImageUrl = '';
+function downloadQR() {
+  if (!qrImageUrl) return;
+  const a = document.createElement('a');
+  a.href = qrImageUrl;
+  a.download = 'qrcode.png';
+  a.click();
 }
 
 function clearAll() {
@@ -80,7 +81,6 @@ function clearAll() {
   document.getElementById('placeholder').style.display = 'block';
   document.getElementById('placeholder').textContent = '点击生成二维码';
   document.getElementById('downloadPngBtn').style.display = 'none';
-  document.getElementById('downloadJpgBtn').style.display = 'none';
 }
 
 setTimeout(generate, 100);
