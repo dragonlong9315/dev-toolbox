@@ -63,7 +63,7 @@
     // 同步背景颜色 — 使用 hsl 渐变
     const heroGrad = `linear-gradient(180deg,hsl(${h},${s}%,8%) 0%,hsl(${h},${s}%,16%) 40%,hsl(${h},${s}%,26%) 70%,#fafafa 100%)`;
     root.style.setProperty('--hero-bg', heroGrad);
-    root.style.setProperty('--tools-bg', `linear-gradient(180deg,#fafafa 0%,hsl(${h},${Math.min(s*0.5,50)}%,96%) 40%,hsl(${h-20},${Math.min(s*0.4,40)}%,94%) 100%)`);
+    root.style.setProperty('--tools-bg', `linear-gradient(180deg,#fafafa 0%,hsl(${h},${Math.min(s*0.9,65)}%,92%) 30%,hsl(${h-10},${Math.min(s*0.8,55)}%,88%) 100%)`);
     root.style.setProperty('--pri-gr', `linear-gradient(135deg,hsl(${h},${s}%,60%),hsl(${h+30},${Math.min(s*0.8,60)}%,55%))`);
     } else {
       root.style.setProperty('--md-primary', hslStr(h, s * 0.7, 65));

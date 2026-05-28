@@ -197,11 +197,22 @@ nav .nav-right{display:flex;align-items:center;gap:6px}
 .tool-card:nth-child(13){animation-delay:.26s}.tool-card:nth-child(14){animation-delay:.28s}.tool-card:nth-child(15){animation-delay:.30s}
 .tool-card .icon-wrap{width:clamp(40px,8vw,48px);height:clamp(40px,8vw,48px);border-radius:var(--r-sm);
   display:flex;align-items:center;justify-content:center;margin-bottom:12px;transition:all .35s var(--ease);background:var(--bg)}
-.tool-card:nth-child(5n+1) .icon-wrap{background:#eef2ff;color:#6366f1}
-.tool-card:nth-child(5n+2) .icon-wrap{background:#fdf2f8;color:#ec4899}
-.tool-card:nth-child(5n+3) .icon-wrap{background:#ecfeff;color:#06b6d4}
-.tool-card:nth-child(5n+4) .icon-wrap{background:#fff7ed;color:#f97316}
-.tool-card:nth-child(5n+5) .icon-wrap{background:#f0fdf4;color:#22c55e}
+/* 每个工具独立功能色 */
+.tool-card:nth-child(1) .icon-wrap{background:#eef2ff;color:#6366f1}   /* JSON — 数据蓝 */
+.tool-card:nth-child(2) .icon-wrap{background:#f0fdf4;color:#16a34a}   /* Base64 — 编码绿 */
+.tool-card:nth-child(3) .icon-wrap{background:#ecfeff;color:#0891b2}   /* URL — 网络青 */
+.tool-card:nth-child(4) .icon-wrap{background:#fff7ed;color:#ea580c}   /* 时间戳 — 时间橙 */
+.tool-card:nth-child(5) .icon-wrap{background:#fdf2f8;color:#db2777}   /* 正则 — 匹配粉 */
+.tool-card:nth-child(6) .icon-wrap{background:#f5f3ff;color:#7c3aed}   /* 哈希 — 安全紫 */
+.tool-card:nth-child(7) .icon-wrap{background:#f0fdf4;color:#15803d}   /* 二维码 — 图像绿 */
+.tool-card:nth-child(8) .icon-wrap{background:#eff6ff;color:#2563eb}   /* UUID — ID蓝 */
+.tool-card:nth-child(9) .icon-wrap{background:#f1f5f9;color:#475569}   /* Lorem — 文本灰 */
+.tool-card:nth-child(10) .icon-wrap{background:#fff7ed;color:#c2410c}  /* Entity — 标记橙 */
+.tool-card:nth-child(11) .icon-wrap{background:#fdf4ff;color:#a21caf}  /* JWT — 令牌品红 */
+.tool-card:nth-child(12) .icon-wrap{background:#fef2f2;color:#dc2626}  /* 颜色 — 设计红 */
+.tool-card:nth-child(13) .icon-wrap{background:#fefce8;color:#ca8a04}  /* Diff — 对比黄 */
+.tool-card:nth-child(14) .icon-wrap{background:#f0f9ff;color:#0284c7}  /* Markdown — 文档天蓝 */
+.tool-card:nth-child(15) .icon-wrap{background:#f7fee7;color:#4d7c0f}  /* 图片 — 图像绿 */
 .tool-card svg{width:clamp(20px,4vw,24px);height:clamp(20px,4vw,24px)}
 .tool-card h3{font-size:.85rem;font-weight:600;margin-bottom:2px}
 .tool-card p{font-size:.72rem;color:var(--text-3)}
