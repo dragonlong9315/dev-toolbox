@@ -18,6 +18,8 @@
   --acc: #06b6d4;
   --line: #f4f4f5;
   --line-2: #e4e4e7;
+  --hero-bg: linear-gradient(180deg,#0f172a 0%,#1e1b4b 40%,#312e81 70%,#fafafa 100%);
+  --tools-bg: linear-gradient(180deg,#fafafa 0%,#fef2f2 30%,#fff7ed 60%,#ecfeff 100%);
   --r-sm: 8px;
   --r: 14px;
   --r-lg: 20px;
@@ -48,8 +50,8 @@ body{
 }
 .section-bg>*{position:relative;z-index:1}
 
-/* Hero 区 — 深蓝紫渐变 */
-.section-hero{background:linear-gradient(180deg,#0f172a 0%,#1e1b4b 40%,#312e81 70%,#fafafa 100%);color:#fff}
+/* Hero 区 — CSS 变量控制 */
+.section-hero{background:var(--hero-bg);color:#fff;transition:background .6s var(--ease)}
 .section-hero .hero .badge{background:rgba(255,255,255,.12);color:#c7d2fe}
 .section-hero .hero .badge::before{background:#818cf8}
 .section-hero .hero h1{color:#fff}
@@ -62,8 +64,8 @@ body{
 .section-hero .hero .stats .stat .lbl{color:rgba(255,255,255,.45)}
 .section-hero #heroCanvas{opacity:.35}
 
-/* 工具区 — 温暖渐变 */
-.section-tools{background:linear-gradient(180deg,#fafafa 0%,#fef2f2 30%,#fff7ed 60%,#ecfeff 100%)}
+/* 工具区 — CSS 变量控制 */
+.section-tools{background:var(--tools-bg);transition:background .6s var(--ease)}
 .section-tools::before{content:'';position:absolute;inset:0;background:var(--noise);pointer-events:none}
 
 /* Footer 区 — 深色 */
@@ -230,7 +232,8 @@ footer .footer-links a:hover{color:#fff}
 .tool-header h1{font-size:clamp(.85rem,2.5vw,1rem);font-weight:700;display:flex;align-items:center;gap:6px}
 .tool-header h1 svg{width:18px;height:18px;color:var(--pri);flex-shrink:0}
 .tool-header a{color:var(--text-2);text-decoration:none;font-size:.8rem;white-space:nowrap}
-.tool-main{padding:clamp(16px,3vw,28px) 0}
+.tool-main{padding:clamp(16px,3vw,28px) 0;animation:pageIn .4s var(--ease)}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 .tool-main textarea,.tool-main input[type="text"],.tool-main input[type="number"]{
   width:100%;padding:10px 12px;border:1px solid var(--line-2);border-radius:var(--r-sm);

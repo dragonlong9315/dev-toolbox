@@ -60,6 +60,11 @@
       root.style.setProperty('--md-on-background', hslStr(h, 4, 10));
       root.style.setProperty('--md-outline', hslStr(h, 8, 78));
       root.style.setProperty('--md-outline-variant', hslStr(h, 8, 90));
+    // 同步背景颜色 — 使用 hsl 渐变
+    const heroGrad = `linear-gradient(180deg,hsl(${h},${s}%,8%) 0%,hsl(${h},${s}%,16%) 40%,hsl(${h},${s}%,26%) 70%,#fafafa 100%)`;
+    root.style.setProperty('--hero-bg', heroGrad);
+    root.style.setProperty('--tools-bg', `linear-gradient(180deg,#fafafa 0%,hsl(${h},${Math.min(s*0.5,50)}%,96%) 40%,hsl(${h-20},${Math.min(s*0.4,40)}%,94%) 100%)`);
+    root.style.setProperty('--pri-gr', `linear-gradient(135deg,hsl(${h},${s}%,60%),hsl(${h+30},${Math.min(s*0.8,60)}%,55%))`);
     } else {
       root.style.setProperty('--md-primary', hslStr(h, s * 0.7, 65));
       root.style.setProperty('--md-on-primary', hslStr(h, s, 14));
@@ -73,6 +78,9 @@
       root.style.setProperty('--md-on-background', hslStr(h, 6, 90));
       root.style.setProperty('--md-outline', hslStr(h, 8, 40));
       root.style.setProperty('--md-outline-variant', hslStr(h, 8, 24));
+      // 暗色同步背景
+      root.style.setProperty('--hero-bg', `linear-gradient(180deg,hsl(${h},8%,5%) 0%,hsl(${h},${s*0.5}%,10%) 70%,#09090b 100%)`);
+      root.style.setProperty('--tools-bg', `linear-gradient(180deg,hsl(${h},10%,8%) 0%,hsl(${h},8%,10%) 100%)`);
     }
   }
 

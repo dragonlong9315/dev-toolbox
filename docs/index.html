@@ -43,7 +43,7 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
         <span data-i18n="explore">探索工具</span>
       </a>
-      <a href="analytics" class="btn-ghost" data-i18n="analytics">📊 访问统计</a>
+      <a href="javascript:document.getElementById('tools').scrollIntoView({behavior:'smooth'})" class="btn-ghost">↓ 开始使用</a>
     </div>
     <div class="stats">
       <div class="stat"><div class="num" data-i18n="tools_count">15</div><div class="lbl" data-i18n="tools_label">在线工具</div></div>
@@ -64,63 +64,63 @@
 
     <a href="tools/json.html" class="tool-card" data-keywords="json 格式化 校验 压缩 beautify formatter">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8h.01M8 12h.01M8 16h.01M16 8h.01M16 12h.01M16 16h.01"/></svg></div>
-      <h3>JSON 格式化</h3><p>格式化、压缩、校验</p><span class="tag">数据</span>
+      <h3 data-i18n="t_json">JSON 格式化</h3><p data-i18n="t_json_desc">格式化、压缩、校验</p><span class="tag">数据</span>
     </a>
     <a href="tools/base64.html" class="tool-card" data-keywords="base64 编解码 编码 解码 encode decode">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg></div>
-      <h3>Base64 编解码</h3><p>文本与 Base64 互转</p><span class="tag">编码</span>
+      <h3 data-i18n="t_base64">Base64 编解码</h3><p data-i18n="t_base64_desc">文本与 Base64 互转</p><span class="tag">编码</span>
     </a>
     <a href="tools/url.html" class="tool-card" data-keywords="url 编解码 encode decode">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
-      <h3>URL 编解码</h3><p>Encode / Decode</p><span class="tag">网络</span>
+      <h3 data-i18n="t_url">URL 编解码</h3><p data-i18n="t_url_desc">Encode / Decode</p><span class="tag">网络</span>
     </a>
     <a href="tools/timestamp.html" class="tool-card" data-keywords="时间戳 timestamp unix 日期">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-      <h3>时间戳转换</h3><p>Unix 时间戳 ⇄ 日期</p><span class="tag">时间</span>
+      <h3 data-i18n="t_ts">时间戳转换</h3><p data-i18n="t_ts_desc">Unix 时间戳 ⇄ 日期</p><span class="tag">时间</span>
     </a>
     <a href="tools/regex.html" class="tool-card" data-keywords="正则 regex 表达式 匹配">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 7l3 3-3 3M14 17l3-3-3-3"/></svg></div>
-      <h3>正则测试</h3><p>实时匹配与高亮</p><span class="tag">文本</span>
+      <h3 data-i18n="t_regex">正则测试</h3><p data-i18n="t_regex_desc">实时匹配与高亮</p><span class="tag">文本</span>
     </a>
     <a href="tools/hash.html" class="tool-card" data-keywords="hash 哈希 md5 sha1 sha256">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg></div>
-      <h3>哈希生成</h3><p>MD5 / SHA-256</p><span class="tag">安全</span>
+      <h3 data-i18n="t_hash">哈希生成</h3><p data-i18n="t_hash_desc">MD5 / SHA-256</p><span class="tag">安全</span>
     </a>
     <a href="tools/qrcode.html" class="tool-card" data-keywords="qr 二维码 条码">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="15" y="15" width="2" height="2"/><rect x="19" y="15" width="2" height="2"/><rect x="15" y="19" width="2" height="2"/><rect x="19" y="19" width="2" height="2"/></svg></div>
-      <h3>二维码生成</h3><p>文本 → 二维码</p><span class="tag">图像</span>
+      <h3 data-i18n="t_qr">二维码生成</h3><p data-i18n="t_qr_desc">文本 → 二维码</p><span class="tag">图像</span>
     </a>
     <a href="tools/uuid.html" class="tool-card" data-keywords="uuid guid 唯一 id">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><circle cx="6" cy="14" r="1.5"/><circle cx="11" cy="14" r="1.5"/><circle cx="16" cy="14" r="1.5"/></svg></div>
-      <h3>UUID 生成器</h3><p>批量生成 UUID v4</p><span class="tag">ID</span>
+      <h3 data-i18n="t_uuid">UUID 生成器</h3><p data-i18n="t_uuid_desc">批量生成 UUID v4</p><span class="tag">ID</span>
     </a>
     <a href="tools/lorem.html" class="tool-card" data-keywords="lorem ipsum 占位 假文">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
-      <h3>Lorem Ipsum</h3><p>占位文本生成</p><span class="tag">文本</span>
+      <h3 data-i18n="t_lorem">Lorem Ipsum</h3><p data-i18n="t_lorem_desc">占位文本生成</p><span class="tag">文本</span>
     </a>
     <a href="tools/htmlentity.html" class="tool-card" data-keywords="html entity 实体 转义">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-      <h3>HTML Entity</h3><p>实体编码与解码</p><span class="tag">Web</span>
+      <h3 data-i18n="t_entity">HTML Entity</h3><p data-i18n="t_entity_desc">实体编码与解码</p><span class="tag">Web</span>
     </a>
     <a href="tools/jwt.html" class="tool-card" data-keywords="jwt token 解码">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 10h.01M8 14h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01"/></svg></div>
-      <h3>JWT 解码</h3><p>解析 JWT Token</p><span class="tag">认证</span>
+      <h3 data-i18n="t_jwt">JWT 解码</h3><p data-i18n="t_jwt_desc">解析 JWT Token</p><span class="tag">认证</span>
     </a>
     <a href="tools/color.html" class="tool-card" data-keywords="color 颜色 hex rgb hsl">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/><path d="M12 2a6 6 0 0 0 0 20"/></svg></div>
-      <h3>颜色转换</h3><p>HEX / RGB / HSL</p><span class="tag">设计</span>
+      <h3 data-i18n="t_color">颜色转换</h3><p data-i18n="t_color_desc">HEX / RGB / HSL</p><span class="tag">设计</span>
     </a>
     <a href="tools/diff.html" class="tool-card" data-keywords="diff 对比 差异 compare">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="18" rx="1"/><rect x="13" y="3" width="8" height="18" rx="1"/><line x1="7" y1="8" x2="7" y2="8.01"/><line x1="7" y1="12" x2="7" y2="12.01"/><line x1="7" y1="16" x2="7" y2="16.01"/><line x1="17" y1="8" x2="17" y2="8.01"/><line x1="17" y1="12" x2="17" y2="12.01"/><line x1="17" y1="16" x2="17" y2="16.01"/></svg></div>
-      <h3>文本 Diff</h3><p>逐行对比差异</p><span class="tag">对比</span>
+      <h3 data-i18n="t_diff">文本 Diff</h3><p data-i18n="t_diff_desc">逐行对比差异</p><span class="tag">对比</span>
     </a>
     <a href="tools/markdown.html" class="tool-card" data-keywords="markdown md 预览 渲染">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/><polyline points="8 15 12 9 16 15"/><line x1="9.5" y1="13" x2="14.5" y2="13"/></svg></div>
-      <h3>Markdown 预览</h3><p>实时渲染预览</p><span class="tag">文档</span>
+      <h3 data-i18n="t_md">Markdown 预览</h3><p data-i18n="t_md_desc">实时渲染预览</p><span class="tag">文档</span>
     </a>
     <a href="tools/image64.html" class="tool-card" data-keywords="图片 base64 编码 转换">
       <div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-      <h3>图片转 Base64</h3><p>图片 ⇄ Base64</p><span class="tag">图像</span>
+      <h3 data-i18n="t_img64">图片转 Base64</h3><p data-i18n="t_img64_desc">图片 ⇄ Base64</p><span class="tag">图像</span>
     </a>
 
   </div>
@@ -139,7 +139,7 @@
       <p data-i18n="github_desc">开源 · 纯前端 · MIT 许可</p>
     </div>
     <div class="footer-links">
-      <a href="analytics" data-i18n="footer_analytics">📊 访问统计</a>
+      <a href="https://github.com/dragonlong9315/dev-toolbox" target="_blank" rel="noopener">GitHub ⭐</a>
       <a href="robots.txt">robots.txt</a>
       <a href="https://github.com/dragonlong9315/dev-toolbox" target="_blank" rel="noopener">GitHub</a>
     </div>

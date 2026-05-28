@@ -2,28 +2,32 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="在线 Lorem Ipsum 占位文本生成器 — 生成指定段落数的随机拉丁文文本">
+<meta name="description" content="在线 Lorem Ipsum 占位文本生成器">
 <title>Lorem Ipsum 生成器 — Dev工具箱</title>
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../monet.css">
 </head>
 <body>
-<header class="tool-header"><div class="container"><h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> Lorem Ipsum 生成器</h1><a href="../index.html">← 返回</a></div></header>
+<header class="tool-header"><div class="container"><h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg> Lorem Ipsum</h1><a href="../index.html">← 返回</a></div></header>
 <main class="container tool-main">
-<div class="control-row">
-  <button onclick="generate(1)">1 段</button>
-  <button onclick="generate(3)">3 段</button>
-  <button onclick="generate(5)">5 段</button>
-  <button onclick="generate(10)">10 段</button>
-  <label>自定义: <input type="number" id="customN" value="3" min="1" max="100" style="width:60px"> 段</label>
-  <button onclick="generate(parseInt(document.getElementById('customN').value)||3)">生成</button>
-  <button class="btn-copy" onclick="copyAll()">📋 复制</button>
-</div>
-<div id="output" class="result-box">点击按钮生成占位文本...</div>
+  <div class="control-row" style="flex-wrap:wrap;gap:6px">
+    <button onclick="gen(1)">1 段</button>
+    <button onclick="gen(3)">3 段</button>
+    <button onclick="gen(5)">5 段</button>
+    <button onclick="gen(10)">10 段</button>
+    <label style="display:flex;align-items:center;gap:4px;font-size:.82rem;white-space:nowrap">
+      自定义: <input type="number" id="customN" value="3" min="1" max="100" style="width:55px;padding:6px">
+      段
+    </label>
+    <button onclick="gen(parseInt(document.getElementById('customN').value)||3)">生成</button>
+    <button class="btn-copy" onclick="copyAll()">📋 复制</button>
+  </div>
+  <div id="output" class="result-box" style="font-size:.84rem;line-height:1.7;white-space:pre-wrap;word-break:break-word">点击上方按钮生成占位文本...</div>
 </main>
+<footer><div class="container"><p>© 2025 Dev工具箱 · <a href="https://github.com/dragonlong9315/dev-toolbox" target="_blank">GitHub</a> · <a href="../index.html">返回首页</a></p></div></footer>
 <script>
 const WORDS = ['lorem','ipsum','dolor','sit','amet','consectetur','adipiscing','elit','sed','do','eiusmod','tempor','incididunt','ut','labore','et','dolore','magna','aliqua','enim','ad','minim','veniam','quis','nostrud','exercitation','ullamco','laboris','nisi','ut','aliquip','ex','ea','commodo','consequat','duis','aute','irure','dolor','in','reprehenderit','voluptate','velit','esse','cillum','dolore','eu','fugiat','nulla','pariatur','excepteur','sint','occaecat','cupidatat','non','proident','sunt','culpa','qui','officia','deserunt','mollit','anim','id','est','laborum'];
-function generate(n) {
+function gen(n) {
   const paras = [];
   for (let p = 0; p < n; p++) {
     const len = 30 + Math.floor(Math.random() * 50);
@@ -33,7 +37,6 @@ function generate(n) {
     text = text.charAt(0).toUpperCase() + text.slice(1) + '.';
     paras.push(text);
   }
-  document.getElementById('output').className = 'result-box';
   document.getElementById('output').textContent = paras.join('\n\n');
 }
 function copyAll() {

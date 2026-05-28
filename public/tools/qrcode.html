@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="在线二维码生成工具 — 文本/URL 转二维码，纯前端运行">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="在线二维码生成工具 — 文本/URL 转二维码，支持下载保存">
 <title>二维码生成 — Dev工具箱</title>
 <link rel="stylesheet" href="../style.css">
 <link rel="stylesheet" href="../monet.css">
@@ -12,52 +11,67 @@
 <header class="tool-header">
   <div class="container">
     <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="15" y="15" width="2" height="2"/><rect x="19" y="15" width="2" height="2"/><rect x="15" y="19" width="2" height="2"/><rect x="19" y="19" width="2" height="2"/></svg> 二维码生成</h1>
-    <a href="../index.html">← 返回工具箱</a>
+    <a href="../index.html">← 返回</a>
   </div>
 </header>
 <main class="container tool-main">
   <div class="label-row"><span>输入文本或 URL</span></div>
   <textarea id="input" rows="4" placeholder="输入要生成二维码的文本或链接...">https://github.com</textarea>
-  <div class="control-row">
+  <div class="control-row" style="flex-wrap:wrap">
     <button onclick="generate()">生成二维码</button>
-    <label>尺寸: <input type="number" id="size" value="256" min="64" max="1024" style="width:80px"></label>
+    <label style="display:flex;align-items:center;gap:6px;font-size:.82rem">尺寸: <input type="number" id="size" value="256" min="64" max="1024" style="width:70px;padding:7px"></label>
     <button class="btn-outline" onclick="clearAll()">清空</button>
   </div>
-  <div id="qrcode-container" style="text-align:center;margin-top:16px;">
-    <canvas id="qrcode" style="display:none"></canvas>
-    <p id="placeholder" style="color:#999;">点击生成二维码</p>
+  <div id="qrcode-container" style="text-align:center;margin:20px 0;min-height:260px">
+    <canvas id="qrcode" style="display:none;max-width:100%"></canvas>
+    <p id="placeholder" style="color:var(--text-3);padding:40px">点击生成二维码</p>
+  </div>
+  <div class="control-row" style="justify-content:center;gap:10px">
+    <button id="downloadPngBtn" class="btn-copy" onclick="downloadQR('png')" style="display:none">📥 下载 PNG</button>
+    <button id="downloadJpgBtn" class="btn-copy" onclick="downloadQR('jpg')" style="display:none">📥 下载 JPG</button>
   </div>
 </main>
 <footer><div class="container"><p>© 2025 Dev工具箱 · <a href="https://github.com/dragonlong9315/dev-toolbox" target="_blank">GitHub</a> · <a href="../index.html">返回首页</a></p></div></footer>
 <script>
-// 简单二维码生成器（QR Code 模式1）
-// 基于公开算法实现
-
 function generate() {
   const text = document.getElementById('input').value;
   const size = parseInt(document.getElementById('size').value) || 256;
   const canvas = document.getElementById('qrcode');
   const placeholder = document.getElementById('placeholder');
+  const dPng = document.getElementById('downloadPngBtn');
+  const dJpg = document.getElementById('downloadJpgBtn');
 
   if (!text) { placeholder.textContent = '请输入文本'; return; }
 
-  // 使用 QR Code API (免费 CDN) 生成
-  const encoded = encodeURIComponent(text);
   const img = new Image();
   img.onload = function() {
     const ctx = canvas.getContext('2d');
-    canvas.width = size;
-    canvas.height = size;
-    ctx.drawImage(img, 0, 0, size, size);
+    canvas.width = Math.min(size, 600);
+    canvas.height = Math.min(size, 600);
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     canvas.style.display = 'block';
     canvas.style.margin = '0 auto';
+    canvas.style.maxWidth = '100%';
     placeholder.style.display = 'none';
+    dPng.style.display = 'inline-flex';
+    dJpg.style.display = 'inline-flex';
   };
   img.onerror = function() {
     placeholder.textContent = '生成失败，请检查输入';
     canvas.style.display = 'none';
+    dPng.style.display = 'none'; dJpg.style.display = 'none';
+    placeholder.style.display = 'block';
   };
-  img.src = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encoded}`;
+  img.src = 'https://api.qrserver.com/v1/create-qr-code/?size='+Math.min(size,600)+'x'+Math.min(size,600)+'&data='+encodeURIComponent(text);
+}
+
+function downloadQR(fmt) {
+  const c = document.getElementById('qrcode');
+  const link = document.createElement('a');
+  link.download = 'qrcode.' + fmt;
+  link.href = fmt === 'png' ? c.toDataURL('image/png') : c.toDataURL('image/jpeg', 0.92);
+  link.click();
 }
 
 function clearAll() {
@@ -65,9 +79,10 @@ function clearAll() {
   document.getElementById('qrcode').style.display = 'none';
   document.getElementById('placeholder').style.display = 'block';
   document.getElementById('placeholder').textContent = '点击生成二维码';
+  document.getElementById('downloadPngBtn').style.display = 'none';
+  document.getElementById('downloadJpgBtn').style.display = 'none';
 }
 
-// 自动生成
 setTimeout(generate, 100);
 </script>
 <script src="../monet.js"></script>
